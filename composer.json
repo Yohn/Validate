@@ -1,0 +1,36 @@
+{
+	"name": "yohns/validate",
+	"description": "Currently validating mysql column data types to use before inserting or updating, and maybe searching the database",
+	"require": {
+		"yohns/config": "^1.0",
+		"yohns/lang": "^0.1.1"
+	},
+	"license": "MIT",
+	"autoload": {
+		"psr-4": {
+			"Yohns\\Validate\\": "Validate/"
+		}
+	},
+	"authors": [
+		{
+			"name": "Yohn",
+			"email": "john.skem9@gmail.com"
+		}
+	],
+	"minimum-stability": "stable",
+	"yohn-removed":{
+		"require-dev": {
+			"pestphp/pest": "^3.5"
+		}
+	},
+	"config": {
+		"allow-plugins": {
+			"pestphp/pest-plugin": false
+		}
+	},
+	"extra": {
+		"validate": {
+			"exclude": ["PreVersions/", "tests/"]
+		}
+	}
+}
