@@ -2,8 +2,9 @@
 	"name": "yohns/validate",
 	"description": "Currently validating mysql column data types to use before inserting or updating, and maybe searching the database",
 	"require": {
+		"php": ">=8.3",
 		"yohns/config": "^1.0",
-		"yohns/lang": "^0.1.1"
+		"yohns/lang": "^0.1"
 	},
 	"license": "MIT",
 	"autoload": {

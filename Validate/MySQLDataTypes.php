@@ -37,10 +37,26 @@ final class MySQLDataTypes
 		}
 
 		self::$rules = $getRules;
-		if (self::$rules === null) {
+		if (count(self::$rules) === 0) {
 			# get local configs
 			self::$rules = include __DIR__ . '/Rules/DBDataTypeRules.php';
 		}
+	}
+
+	/**
+	 * The runCheck function below might have been to check input,
+	 * but I moved that to the RuleFactory in the Input/Rules namespace
+	 *
+	 * We do need this class to build the rules that the Input/Rules
+	 * namespace have created.
+	 *
+	 * @param array $rules this will be the string with the rules based on db column
+	 */
+	public static function buildRule(array $column): string{
+		if (count(self::$rules) === 0) {
+
+		}
+
 	}
 
 	/**
@@ -61,7 +77,8 @@ final class MySQLDataTypes
 		$dataTypeName = strtoupper($column['DATA_TYPE']);
 		$dataTypeRule = self::$rules[$dataTypeName] ?? false;
 		if($dataTypeRule === false){
-			// column isnt found in db schema file..
+			// column isnt found in db schema file
+			//~ - schema file is all the different db column types..
 			return ['status' => 'error', 'msg' => Text::L('Database type [data-type] not found', ['[data-type]' => $column['DATA_TYPE']])];
 		}
 

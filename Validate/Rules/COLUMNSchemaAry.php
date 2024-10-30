@@ -3,43 +3,43 @@
  * Export to PHP Array plugin for PHPMyAdmin
  * @version 5.2.1
  */
-echo '<pre>'.print_r(array_column($COLUMNS, 'COLUMN_TYPE'),1).'</pre>';
+	//echo '<pre>'.print_r(array_column($COLUMNS, 'COLUMN_TYPE'),1).'</pre>';
 
 //function parseType(string $type): array|string {
-//	$unsigned = false;
-//	if(\str_ends_with($type, ' unsigned')){
-//		//$this->unsigned = true;
-//		$unsigned = true;
-//		//$this->params = array_filter($this->params, fn($param) =>
-//		$params = array_filter($params, fn($param) =>
-//			strtoupper($param) !== 'UNSIGNED'
-//		);
-//	}
-//	if (preg_match('/^(\w+)(?:\((.*?)\))?$/', strtoupper($type), $matches)) {
-//		//$this->type = $matches[1];
-//		$type = $matches[1];
-//		//$this->params = isset($matches[2]) ? array_map('trim', explode(',', $matches[2])) : [];
-//		$params = isset($matches[2])
-//			? array_map('trim', explode(',', $matches[2]))
-//			: [];
-//		//! test return added
-//		return [
-//			'type' => $type,
-//			'params' => $params,
-//			'unsigned' => $unsigned,
-//		];
-//	} else {
-//		return '"'.$type.'" type was not found..';
-//		//throw new ValException(
-//		//	"Invalid type format: {type}",
-//		//	'invalid_type_format',
-//		//	['type' => $type]
-//		//);
-//	}
-//}
-//
-//foreach($COLUMNS as $ary){
-//	$results[] = parseType($ary['COLUMN_TYPE']);
+	//	$unsigned = false;
+	//	if(\str_ends_with($type, ' unsigned')){
+	//		//$this->unsigned = true;
+	//		$unsigned = true;
+	//		//$this->params = array_filter($this->params, fn($param) =>
+	//		$params = array_filter($params, fn($param) =>
+	//			strtoupper($param) !== 'UNSIGNED'
+	//		);
+	//	}
+	//	if (preg_match('/^(\w+)(?:\((.*?)\))?$/', strtoupper($type), $matches)) {
+	//		//$this->type = $matches[1];
+	//		$type = $matches[1];
+	//		//$this->params = isset($matches[2]) ? array_map('trim', explode(',', $matches[2])) : [];
+	//		$params = isset($matches[2])
+	//			? array_map('trim', explode(',', $matches[2]))
+	//			: [];
+	//		//! test return added
+	//		return [
+	//			'type' => $type,
+	//			'params' => $params,
+	//			'unsigned' => $unsigned,
+	//		];
+	//	} else {
+	//		return '"'.$type.'" type was not found..';
+	//		//throw new ValException(
+	//		//	"Invalid type format: {type}",
+	//		//	'invalid_type_format',
+	//		//	['type' => $type]
+	//		//);
+	//	}
+	//}
+	//
+	//foreach($COLUMNS as $ary){
+	//	$results[] = parseType($ary['COLUMN_TYPE']);
 //}
 //print_r($results);
 /**

@@ -1,3 +1,4 @@
 vendor/
 .vscode/
 PreVersions/
+/Validate/Rules/Custom
