@@ -2,10 +2,11 @@
 
 namespace Yohns\Validate;
 
+use PDO;
 use Yohns\Core\Config;
 use Yohns\Lang\Text;
-use Yohns\Validate\Processors\DataTypeFactory;
 use Yohns\Validate\Processors\DataTypeException;
+use Yohns\Validate\Processors\DataTypeFactory;
 
 final class MySQLDataTypes
 {
@@ -54,9 +55,64 @@ final class MySQLDataTypes
 	 */
 	public static function buildRule(array $column): string{
 		if (count(self::$rules) === 0) {
-
+			self::getRules();
 		}
+		$col = self::$rules[strtoupper($column['DATA_TYPE'])];
+		if($column['DATA_TYPE'] === 'ENUM'){
+			//$avail =  explode(',', strtr($column['COLUMN_TYPE'], ['enum(' => '', ')' => '', "'" => '']));
+			$avail =  strtr($column['COLUMN_TYPE'], ['enum(' => '', ')' => '', "'" => '']);
+			return [
+				'rules' => 'inlist('.$avail.')',
+				'param' => PDO::PARAM_STR,
+			];
+		} else if($column['COLUMN_TYPE'] == 'tinyint(1)' || in_array($column['DATA_TYPE'], ['bit', 'bool'])){ //
+			$rules[] = 'bool';
+			$rules[] = 'min(0)';
+			$rules[] = 'max(1)';
+		} else {
+			if(in_array($column['DATA_TYPE'], ['TINYINT', 'SMALLINT', 'MEDIUMINT', 'INT', 'BIGINT'])){
+				if(str_ends_with($column['COLUMN_TYPE'], 'unsigned')){
+					$is_unsigned = true;
+					$rules[] = 'between('.$col['min_signed'].','.$col['max_signed'].')';
+					//$rules[] = 'min()';
+					//$rules[] = 'max()';
+				} else {
+					$is_unsigned = false;
+					$rules[] = 'between('.$col['min_signed'].','.$col['max_signed'].')';
+					$rules[] = 'int';
+					//$rules[] = 'min()';
+					//$rules[] = 'max()';
+				}
+			}
+			$imgTypes = Config::get('allowsImgMimes');
+			if($imgTypes == false){
+				$imgTypes = include __DIR__.'/Rules/DBImageTypes.php';
+			}
+			if($column['IS_NULLABLE'] == 'yes'){
+				$rules[] = 'nullable';
+			} else {
+				$rules[] = 'required';
+			}
 
+			if(str_contains($column['COLUMN_NAME'], 'email')){
+				$rules[] = 'email';
+			} else if(str_contains($column['COLUMN_NAME'], 'pic')){
+				$rules[] = 'file('.implode(',',$imgTypes).')';
+			} else if(str_contains($column['COLUMN_NAME'], 'username')){
+				$rules[] = 'alphadash';
+				$rules[] = 'startswith(alphanumeric)';
+				$rules[] = 'endswith(alphanumeric)';
+			} else if(str_contains($column['COLUMN_NAME'], 'url')){
+				$rules[] = 'url';
+			}
+			if($columns['CHARACTER_MAXIMUM_LENGTH'] !== NULL){
+				$rules[] = 'maxlength('.$columns['CHARACTER_MAXIMUM_LENGTH'].')';
+			}
+		}
+		return [
+			'rules' => implode('|', $rules),
+			'param' => $col['PARAM_TYPE'],
+		];
 	}
 
 	/**
